@@ -338,6 +338,91 @@
     .ts-card { break-inside: avoid; }
     .project { break-inside: avoid; }
   }
+
+  /* ── 모바일 반응형 (768px 이하) ── */
+  @media (max-width: 768px) {
+    body {
+      padding: 16px 14px;
+      font-size: 10pt;
+    }
+
+    .profile-name { font-size: 18pt; }
+    .profile-grid {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .profile-label { min-width: 44px; }
+
+    .section-title { font-size: 16pt; }
+
+    .project-title { font-size: 13pt; }
+    .project-meta { gap: 4px 8px; }
+
+    .tech-name { min-width: 100px; }
+
+    /* 2컬럼 레이아웃 → 1컬럼 */
+    .ts-layout {
+      grid-template-columns: 1fr !important;
+    }
+    .ts-image { margin-top: 10px; }
+
+    /* 이미지 그리드 → 1컬럼 */
+    .img-grid-2 {
+      grid-template-columns: 1fr;
+    }
+    .img-grid-3 {
+      grid-template-columns: 1fr;
+    }
+    .ts-image .img-grid-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* 결과 테이블 가로 스크롤 */
+    .result-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    /* 코드 블록 */
+    .code-block {
+      font-size: 7pt;
+      padding: 8px 10px;
+    }
+
+    ol li, ul li { font-size: 9pt; }
+    .ts-section-label { font-size: 9pt; }
+    .ts-title { font-size: 9pt; }
+
+    .contrib-item { font-size: 9pt; }
+
+    /* 기여한 부분 태그 */
+    .contrib-tag { font-size: 7pt; padding: 2px 6px; }
+  }
+
+  /* ── 소형 모바일 (480px 이하 / iPhone SE 등) ── */
+  @media (max-width: 480px) {
+    body {
+      padding: 12px 10px;
+      font-size: 10pt;
+    }
+
+    .profile-name { font-size: 16pt; }
+
+    .tech-item { flex-direction: column; gap: 2px; }
+    .tech-name { min-width: unset; }
+    .tech-sub { margin-left: 8px; }
+
+    .project-meta { font-size: 8pt; }
+
+    .result-table th,
+    .result-table td { padding: 3px 6px; font-size: 7.5pt; }
+
+    /* 이음 캐시 이미지 풀 너비 */
+    .ts-body img[style*="width: 65%"] {
+      width: 100% !important;
+    }
+  }
 </style>
 </head>
 <body>
