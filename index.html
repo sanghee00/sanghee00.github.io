@@ -470,7 +470,7 @@
             </ol>
             <div class="ts-section-label">해결 과정</div>
             <ol>
-              <li>Lettuce 핀닝 이슈(synchronized → ReentrantLock) 확인 → 이미 v6.6.0에서 수정됨.</li>
+              <li>Virtual Thread 핀닝 의심 (<code>synchronized</code> 사용 시 Carrier Thread 고정) → Lettuce 내부 <code>synchronized</code> 블록 확인 → <a href="https://github.com/redis/lettuce/issues/3085" target="_blank" style="color:#4a90d9;">v6.6.0에서 ReentrantLock으로 이미 수정됨</a> 확인.</li>
               <li>하드웨어 한계임을 확인 후 Virtual Thread 비활성화로 롤백.</li>
               <li>플랫폼 스레드(기본 200) 유지, L1/L2 캐시로 방향 전환.</li>
             </ol>

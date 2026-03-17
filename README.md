@@ -58,7 +58,7 @@
 3. Redis 응답 1~2ms로 너무 빨라 mount/unmount 비용이 이득보다 큼.
 
 **해결 과정**
-1. Lettuce 핀닝 이슈(synchronized → ReentrantLock) 확인 → 이미 v6.6.0에서 수정됨.
+1. Virtual Thread 핀닝 의심 (`synchronized` 사용 시 Carrier Thread 고정) → Lettuce 내부 `synchronized` 블록 확인 → [v6.6.0에서 ReentrantLock으로 이미 수정됨](https://github.com/redis/lettuce/issues/3085) 확인.
 2. 하드웨어 한계임을 확인 후 Virtual Thread 비활성화로 롤백.
 3. 플랫폼 스레드(기본 200) 유지, L1/L2 캐시로 방향 전환.
 
