@@ -339,6 +339,43 @@
     .project { break-inside: avoid; }
   }
 
+  /* ── 태블릿 반응형 (769px ~ 1200px / iPad, iPad Pro 등) ── */
+  @media (min-width: 769px) and (max-width: 1200px) {
+    body {
+      padding: 20px 24px;
+      font-size: 9.5pt;
+      max-width: 100%;
+    }
+
+    .profile-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+    }
+
+    .tech-name { min-width: 120px; }
+
+    .result-table { font-size: 8.5pt; }
+
+    .profile-name { font-size: 16pt; }
+    .section-title { font-size: 15pt; }
+    .project-title { font-size: 12pt; }
+    .ts-title { font-size: 9pt; line-height: 1.5; }
+
+    .ts-body img[style*="width: 65%"] { width: 80% !important; }
+  }
+
+  /* ── 좁은 태블릿 (769px ~ 900px / iPad mini, iPad 세로) ── */
+  @media (min-width: 769px) and (max-width: 900px) {
+    .ts-layout {
+      grid-template-columns: 1fr !important;
+    }
+    .ts-image { margin-top: 12px; }
+
+    .img-grid-3 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
   /* ── 모바일 반응형 (768px 이하) ── */
   @media (max-width: 768px) {
     body {
