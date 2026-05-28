@@ -614,7 +614,7 @@
 
     <!-- TS 2 -->
     <div class="ts-card" id="lol-cache">
-      <div class="ts-title">팀/선수 조회 API DB 부하 → Redis + Caffeine 캐시 도입으로 throughput 122/s에서 5,990/s (+4,800%) 개선</div>
+      <div class="ts-title">팀 상세 조회 API → L1/L2 계층 캐시 도입으로 Redis 단독(2,516 RPS) 대비 throughput 5,990 RPS (+138%) 달성</div>
       <div class="ts-body">
         <div class="ts-layout">
           <div class="ts-content">
@@ -626,7 +626,7 @@
             </ol>
             <div class="ts-section-label">해결 과정</div>
             <ol>
-              <li>Redis 캐싱 1차 적용 → RPS 122/s에서 7,190/s 달성, avg 153ms → 57ms 개선.</li>
+              <li>Redis 캐싱 1차 적용 → RPS 122/s에서 2,516/s 달성, avg 153ms → 57ms 개선.</li>
               <li>잔존 네트워크 비용 해결을 위해 Caffeine(L1) + Redis(L2) 계층 캐시 직접 구현.
                 <ul>
                   <li>key 공간 분석 → 좁은 캐시(top8)만 L1 적용, 넓은 캐시(match)는 L2 전용 유지.</li>
@@ -642,7 +642,7 @@
               <tr><td>L1/L2 (TTL 30초)</td><td>128ms</td><td>3,081/s</td><td>p99 스파이크 발생</td></tr>
               <tr class="best"><td>L1/L2 (TTL 3분)</td><td>64ms</td><td>5,990/s (+138%)</td><td>✅ 최종</td></tr>
             </table>
-            <div class="lesson">💡 배운 점: L1 캐시 효과는 key 공간과 TTL 설계가 핵심. TTL 설정 한 줄로 p99 742ms → 227ms 개선.</div>
+            <div class="lesson">💡 배운 점: L1 캐시 효과는 key 공간과 TTL 설계가 핵심. TTL 30초에서 발생한 p99 742ms 스파이크를 TTL 3분으로 조정해 제거했다.</div>
           </div>
           <div class="ts-image">
             <img src="img/LoL_Pedia_Redis_Caffeine.jpg" alt="Redis 캐싱 L1/L2 계층 캐시 시퀀스 다이어그램">
