@@ -580,7 +580,7 @@
 
     <!-- TS 1 -->
     <div class="ts-card" id="lol-vt">
-      <div class="ts-title">Java 21 Virtual Thread 도입 시 성능 저하 발견 → Carrier Thread 한계 분석 후 롤백, L1/L2 캐시로 전환해 throughput 3배 달성</div>
+      <div class="ts-title">Java 21 Virtual Thread 도입 시 성능 저하 발견 → Carrier Thread 한계 분석 후 롤백, L1/L2 캐시로 전환해 throughput 2.4배(+138%) 달성</div>
       <div class="ts-body">
         <div class="ts-layout">
           <div class="ts-content">
@@ -599,7 +599,7 @@
             <div class="ts-section-label">결과</div>
             <table class="result-table">
               <tr><th>단계</th><th>avg 응답시간</th><th>throughput</th><th>비고</th></tr>
-              <tr><td>기본 스레드</td><td>158ms</td><td>2,516/s</td><td>베이스라인</td></tr>
+              <tr><td>Redis + 플랫폼 스레드</td><td>158ms</td><td>2,516/s</td><td>베이스라인</td></tr>
               <tr><td>Virtual Thread 적용</td><td>201ms (↑27%)</td><td>2,199/s (↓12.6%)</td><td>❌ 성능 악화</td></tr>
               <tr class="best"><td>롤백 + L1/L2 캐시</td><td>64ms</td><td>5,990/s (+138%)</td><td>✅ 최종</td></tr>
             </table>
@@ -626,7 +626,7 @@
             </ol>
             <div class="ts-section-label">해결 과정</div>
             <ol>
-              <li>Redis 캐싱 1차 적용 → RPS 122/s에서 2,516/s 달성, avg 153ms → 57ms 개선.</li>
+              <li>Redis 캐싱 1차 적용 → RPS 122/s에서 2,516/s 달성 (약 20배↑)</li>
               <li>잔존 네트워크 비용 해결을 위해 Caffeine(L1) + Redis(L2) 계층 캐시 직접 구현.
                 <ul>
                   <li>key 공간 분석 → 좁은 캐시(top8)만 L1 적용, 넓은 캐시(match)는 L2 전용 유지.</li>
@@ -638,7 +638,7 @@
             <div class="ts-section-label">결과</div>
             <table class="result-table">
               <tr><th>단계</th><th>avg</th><th>throughput</th><th>비고</th></tr>
-              <tr><td>Redis 단독</td><td>57ms</td><td>2,516/s</td><td></td></tr>
+              <tr><td>Redis 단독</td><td>158ms</td><td>2,516/s</td><td></td></tr>
               <tr><td>L1/L2 (TTL 30초)</td><td>128ms</td><td>3,081/s</td><td>p99 스파이크 발생</td></tr>
               <tr class="best"><td>L1/L2 (TTL 3분)</td><td>64ms</td><td>5,990/s (+138%)</td><td>✅ 최종</td></tr>
             </table>
@@ -725,11 +725,7 @@
               <tr><td>stampede (Redis 삭제 중)</td><td>58.05ms</td><td>186ms</td><td>0%</td></tr>
               <tr class="best"><td>post (회복 후)</td><td>57.30ms</td><td>173ms</td><td>0%</td></tr>
             </table>
-            <div class="new-data">
-              <strong>📊 Redis 단독 vs L1/L2 스탬피드 방어 비교</strong><br>
-              동일 스탬피드 조건에서 <strong>Redis 단독 시 throughput 3,211 RPS</strong>까지 저하된 반면,
-              <strong>L1/L2 적용 시 4,866 RPS 유지</strong> → L1 캐시 방어로 <strong>51% 높은 throughput 유지</strong>.<br>
-            </div>
+
             <div class="lesson">💡 핵심: L1 TTL(3분)이 살아있는 한 Redis 삭제는 서비스에 영향 없음. 에러율 0% 달성 (500 VU, 20초간 Redis 키 삭제 중에도 무중단).</div>
           </div>
           <div class="ts-image">
